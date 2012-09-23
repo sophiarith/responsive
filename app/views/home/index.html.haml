@@ -1,1 +1,92 @@
-%h1 hello
+%header
+	.container
+		%h1 Sophiarith
+.container
+	#content
+		.row
+			%h2 Set Up An Ubuntu Local Development Machine For Ruby On Rails
+			.wrapper
+				%p So, you want to develop Ruby on Rails applications? While loads of (introductory) tutorials are available for developing Ruby on Rails applications, there seems to be some uncertainty about setting up a lean and up-to-date local development environment.
+				%p This tutorial will guide you through the steps of setting up an Ubuntu local development machine for Ruby on Rails. Part 2 of this tutorial, which will be published here later, will help you through the steps to set up an Ubuntu VPS. For now, knowing that VPS stands for virtual private server is sufficient. It will be able to host your newly developed Ruby on Rails applications. But let’s focus on the local development machine first.
+		.row
+			%h2 Ruby On Rails? Ubuntu?
+			.wrapper
+				%p What are Ruby on Rails and Ubuntu? In short, Ruby on Rails is a Web development framework that lets you create Web applications using the Ruby programming language. As the official website states, “Ruby on Rails is an open-source Web framework that’s optimized for programmer happiness and sustainable productivity. It lets you write beautiful code by favoring convention over configuration.”
+				%p Ubuntu, meanwhile, is a “Debian-derived Linux distribution that focuses on usability.” It has been the most popular Linux distribution for the last couple of years. And even better, both Ruby on Rails and Ubuntu are open source and, therefore, completely free to use.
+		.row
+			%h2 A Quick Overview
+			.wrapper
+				%p In this tutorial, we’ll install Ruby and RubyGems using the Ruby Version Manager (RVM) script. And we’ll install Rails and Capistrano in turn using RubyGems. The machine will also feature version control, provided by Git and a PostgreSQL database. A fresh installation of Ubuntu and a working Internet connection are assumed, but these steps should work on most (Debian- and Ubuntu-based) Linux distributions.
+				%p At the time of writing, the latest versions are Ubuntu 10.10, Ruby 1.9.2 and Rails 3.0.7. This tutorial was also tested on Ubuntu 10.04 and the upcoming Ubuntu 11.04 release.
+				%p During this tutorial, we will make extensive use of the Linux command line. Therefore, I have added a small glossary at the end of this article describing the relevant Linux commands.
+		.row
+			%h2 Getting Up To Date
+			.wrapper
+				%p First, let’s get up to date. Log into your machine as a user with administrative (or sudo) rights, and open a terminal window. The commands rendered below need to be entered in this terminal window. The dollar sign ($) is your command prompt, and the rest is as simple as typing the command and hitting “Enter.”
+				%p The first three commands will then update the package lists, upgrade currently installed packages, and install new packages and delete obsolete packages. This will give you a machine that is fully up to date. The final command will reboot the machine, which is good practice after updating a large number of packages.
+				%span
+					%br $ sudo apt-get update
+					%br $ sudo apt-get upgrade
+					%br $ sudo apt-get dist-upgrade
+					%br $ sudo reboot
+		.row
+			%h2 Prepare Your Machine For RVM
+			.wrapper
+				%p After the machine has rebooted, log back in and open a terminal window. The RVM script needs some packages in order to be installed, namely Curl and Git. Curl is a tool to transfer data using a range of protocols (such as HTTP and FTP). And “Git is a free and open-source distributed version control system, designed to handle everything from small to very large projects with speed and efficiency.” Git is the choice for version control among most Ruby on Rails developers.
+				%span
+					%br $ sudo apt-get install curl
+					%br $ sudo apt-get install git-core
+		.row
+			%h2 Configure Git
+			.wrapper
+				%p Git will be used by the RVM script, and we’ll be using it in part 2 of this tutorial. So, after installing the packages, let’s take a little time to configure it. Configuring Git is easy: just provide a user name and email address.
+				%span
+					%br $ git config --global user.name "Your Name"
+					%br $ git config --global user.email your-email@address.com
+					%br For Example
+					%br $ git config --global user.name "John Doe"
+					%br $ git config --global user.email johndoe@mail.com
+		.row
+			%h2 Install RVM
+			.wrapper
+				%p Now we can install RVM. RVM stands for Ruby version manager and “is a command-line tool that allows you to easily install, manage and work with multiple Ruby environments, from interpreters to sets of Gems.” The following command takes care of the installation of the script. RVM will get installed in the home directory of the currently logged-in user.
+				%span
+					%br $ bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)
+				%p Navigate to the home directory, and edit the user bash profile. This ensures that the RVM script gets loaded every time the corresponding user logs in. To edit the bash profile, we’ll use Nano. Nano is a simple command-line text editor, and we will use it again in this tutorial
+				%span
+					%br $ cd
+					%br $ nano .bashrc
+				%p Add the following line to the end of the user bash profile. After you have made the changes, save the file by pressing CTRL + O, and exit Nano by pressing CTRL + X. If you ever want to exit Nano without saving changes, hit CTRL + X and then N.
+				%p [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+				Manually load the script into the current shell session with the following command or open a new terminal window. This way, the rvm command will be made available.
+				%p 
+					$ type rvm | head -1
+					%br If everything is set up correctly, the shell should return that rvm is a function. If it doesn’t, go over to the RVM website and look under “Troubleshooting your install” to see what you can do to make it work.
+		.row
+			%h2 Prepare Your Machine For Ruby And RubyGems
+			.wrapper
+				%p RVM comes with a handy command to view the dependencies that are needed to compile and install Ruby and RubyGems from source.
+				%p
+					$ rvm notes 
+					%br See the dependencies listed under the regular version of Ruby, and install these. Some packages might already be installed.
+				%p 
+					$ sudo apt-get install build-essential bison openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev
+		.row
+			%h2 Install Ruby And RubyGems Using RVM
+			.wrapper
+				%p First, we have Ruby, “a dynamic, open-source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write.”
+				%p Then we have RubyGems. This is “the premier Ruby packaging system. It provides a standard format for distributing Ruby programs and libraries, an easy-to-use tool for managing the installation of Gem packages, a Gem server utility for serving Gems from any machine where RubyGems is installed, and a standard way of publishing Gem packages.”
+				%p Like the RVM command described above, there is also a command to see what versions of Ruby are available for installation using RVM. Have a look at the available Ruby versions using this command:
+				%p 
+					$ rvm list 
+					%br known Install a regular version of Ruby. Because Ruby gets compiled from source, this step might take a while.
+				%p 
+					%br $ rvm install 1.9.2 
+					%br Start using the installed Ruby, and set this version as a default.
+				%p 
+					$ rvm --default use 1.9.2 
+					%br Check the Ruby and RubyGems versions to see whether they have been properly installed.
+				%p $ ruby -v $ gem -v If necessary, manually updating RubyGems and the Gems is possible.
+				%p 
+					$ gem update --system 
+					%br $ gem updat

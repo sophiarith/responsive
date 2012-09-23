@@ -2,3 +2,68 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import 'bootstrap';
+
+body {
+	background-color: #F1F1F1;
+}
+
+header {
+	background: -moz-linear-gradient(black, white); /* FF 3.6+ */  
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #000000), color-stop(100%, #ffffff)); /* Safari 4+, Chrome 2+ */  
+	background: -webkit-linear-gradient(black, white); /* Safari 5.1+, Chrome 10+ */  
+	background: -o-linear-gradient(black, white); /* Opera 11.10 */  
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#ffffff'); /* IE6 & IE7 */  
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#ffffff')"; /* IE8+ */  
+	background: linear-gradient(black, white); /* the standard */
+	height: 100px;
+	margin-bottom: 15px;
+	h1{
+		padding: 40px 20px 0 10px;
+		font-size: 40px;
+		font-weight: bold;
+		text-shadow: 1px 1px 1px gray;
+	}
+}
+.row {
+	background-color: white;
+	margin-bottom: 15px;
+	border-radius: 40px 2px 40px 0;
+	box-shadow: 1px 1px 5px gray;
+	h2 {
+		color: #ccc;
+		text-shadow: 1px 1px 1px gray;
+		font-weight: bold;
+		padding: 10px 20px 10px 30px;
+		background-color: #eee;
+		border-radius: 40px 2px 0 0;
+		border-bottom: 1px solid #D2D2D2;
+	}
+	.wrapper {
+		padding: 20px;
+		border-radius: 0 0 40px 0;
+	}
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    max-width: 95%;
+    min-width: 95%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 900px) {
+  .container {
+    max-width: 95%;
+    min-width: 95%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    max-width: 95%;
+    min-width: 95%;
+    margin: 0 auto;
+  }
+}
